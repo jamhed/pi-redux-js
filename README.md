@@ -1,11 +1,17 @@
 # PI library
 
-PI &mdash; Processing Instructions. Make html elements live.
+Processing Instructions. Make html elements live.
+
+* package management with bower
+* modularization with AMD and require.js
+* coffee-script classes
+* messages to server and to other pi-elements
 
 # How to install
 
+```
 $ bower install pi
-$ bower_components/pi/setup-sample.sh
+```
 
 Then point your web-server to serve files from sample folder as root.
 
@@ -75,4 +81,6 @@ require ["../conf/requirejs"], (Conf) ->
 ```
 
 # How to use
+
+
 
