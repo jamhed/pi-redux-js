@@ -36,7 +36,14 @@ Generate event on this element, triggering all subscribed callbacks.
 Targets are "css-selector@method", and this method just calls "method" for selected targets,
 with args as argument. On completion callback will be called with return value as argument.
 
-### post()
+### post(uri, args, callback)
+
+Makes a post request to server with json-serialized body in following format:
+
+packet: { args: ... , query: ... , data: ... }
+
+Where args are passed args, query is parsed query part of current uri, and data is html elements data-*.
+
 
 ## router.cs
 
