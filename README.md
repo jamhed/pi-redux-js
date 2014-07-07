@@ -20,7 +20,7 @@ $ bower install pi
 ```
 
 Then point your web-server to serve files from sample folder as root.
-There is a complete sample project based on Perl Dancer: https://github.com/jamhed/pi-redux
+There is a complete sample project based on Perl Dancer: https://github.com/jamhed/pi
 
 # How to configure requirejs
 
