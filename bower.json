@@ -1,0 +1,17 @@
+{
+  "name": "pi-redux-js",
+  "version": "1.0.0",
+  "authors": [
+    "Roman Galeev <ip@ncom-ufa.ru>"
+  ],
+  "description": "PI processing instructions",
+  "main": "init.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
