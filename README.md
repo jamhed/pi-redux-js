@@ -4,9 +4,10 @@ PI -- Processing Instructions. Get html-elements live.
 
 h1. How to install
 
-Just use bower:
+$ bower install pi
+$ bower_components/pi/setup-sample.sh
 
-bower install pi
+Then point your web-server to serve files from sample folder as root.
 
 h1. How to configure requirejs
 
@@ -45,4 +46,15 @@ for proper loading sequence:
 
 h1. How to use
 
-The router.cs is the main processor, you need to load it with requirejs
+The router.cs is the main processor, you need to load it with requirejs:
+
+<script type="text/javascript" src="/lib/requirejs/require.js" data-main="/lib/pi/js/init.js"></script>
+
+init.js (a compiled version of init.cs) just loads our requirejs conf and instantiates the router.cs:
+
+require ["../conf/requirejs"], (Conf) ->
+   require.config Conf
+
+   require ["router", "lib/jquery"], (Router, JQuery) ->
+      router = new Router
+
