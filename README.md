@@ -1,15 +1,15 @@
-h1. PI redux
+# PI redux
 
 PI -- Processing Instructions. Get html-elements live.
 
-h1. How to install
+# How to install
 
 $ bower install pi
 $ bower_components/pi/setup-sample.sh
 
 Then point your web-server to serve files from sample folder as root.
 
-h1. How to configure requirejs
+# How to configure requirejs
 
 PI relays on requirejs for module loading. Requirejs should be configured. The configuration
 sample file is located in conf/requirejs.js file. There we define relative paths mapping to real paths
@@ -44,7 +44,7 @@ for proper loading sequence:
       },
    }
 
-h1. How to use
+# How to plug in
 
 The router.cs is the main processor, you need to load it with requirejs:
 
@@ -57,4 +57,7 @@ require ["../conf/requirejs"], (Conf) ->
 
    require ["router", "lib/jquery"], (Router, JQuery) ->
       router = new Router
+
+
+# How to use
 
