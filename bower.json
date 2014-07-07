@@ -5,7 +5,7 @@
     "Roman Galeev <ip@ncom-ufa.ru>"
   ],
   "description": "PI processing instructions",
-  "main": "init.js",
+  "main": "js/init.js",
   "license": "MIT",
   "ignore": [
     "**/.*",

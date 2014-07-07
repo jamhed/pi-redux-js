@@ -1,0 +1,21 @@
+#!/bin/bash
+
+COFFEE="coffee -bc -o"
+SOURCE_PATH="src"
+TARGET_PATH="js"
+
+find -L $SOURCE_PATH -name '*.cs' | while read f
+do
+   P=`dirname $f`
+   F=`basename $f`
+   CMD="echo $P | sed -r 's/\b${SOURCE_PATH}\b/${TARGET_PATH}/'"
+   TARGET=`eval $CMD`
+   CMD="echo $F | sed -r 's/${SOURCE_PATH}$/${TARGET_PATH}/'"
+   FJ=`eval $CMD`
+   echo "NEWER, SKIP: $P/$F $TARGET/$FJ"
+   if test "$P/$F" -nt "$TARGET/$FJ"; then
+      echo $COFFEE $TARGET $P/$F
+      mkdir -p $TARGET
+      $COFFEE $TARGET $P/$F
+   fi
+done
