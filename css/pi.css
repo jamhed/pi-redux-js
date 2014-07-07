@@ -1,0 +1,91 @@
+
+body { padding-top: 50px; }
+
+@media screen and (max-width: 980px) {
+    body { padding-top: 0px; }
+}
+
+html {
+   overflow-y: scroll;
+}
+
+.help-block {
+   margin-bottom: 0px;
+}
+
+.pagination a {
+   cursor: pointer
+}
+
+.table th.asc {
+   background: url("/images/pi/arrow_up.png") no-repeat left;
+   padding-left: 20px;
+}
+
+.table th.desc {
+   background: url("/images/pi/arrow_down.png") no-repeat left;
+   padding-left: 20px;
+}
+
+table.table caption {
+   padding-bottom: 10px;
+   border-bottom: 1px solid #f3f3f3;
+}
+
+table.table caption .title {
+   margin-bottom: 10px;
+   border-bottom: 1px solid #f3f3f3;
+}
+
+table.table caption .pagination {
+   position: absolute;
+   margin: 0;
+}
+
+.CodeMirror {
+/* Set height, width, borders, and global font properties here */
+   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+   font-size: 12px;
+   height: auto;
+}
+
+.image-thumb {
+   margin: 2px;
+   border: 1px solid white;
+}
+
+.image-thumb:hover {
+   margin: 2px;
+   border: 1px solid red
+;}
+
+.ui-dialog { position: fixed }
+
+.ajax-info {
+   color: #999999;
+   position: fixed;
+   top: 14px;
+   left: 16px;
+   width: 24px;
+   height: 24px;
+   background: url('/images/pi/ajax-loader-bar.gif') no-repeat;
+   z-index: 10000;
+}
+
+.ui-autocomplete {
+   z-index: 10000;
+}
+
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'), url(/fonts/pi/PTSans.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ubuntu'), url(/fonts/pi/ubuntu.ttf) format('truetype');
+}
