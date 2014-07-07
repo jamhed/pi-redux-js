@@ -60,7 +60,7 @@ shim: {
 }
 ```
 
-# Sample ышеу
+# Sample site
 
 There is a sample folder with basic file layout. You can setup it with:
 
