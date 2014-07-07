@@ -91,7 +91,7 @@ require ["../conf/requirejs"], (Conf) ->
 
 # How to use
 
-Every pi-element should be subclassed from Pi class. Let define a button:
+Every pi-element should be subclassed from Pi class. Let's define a button:
 
 ```
 define ["a/Pi"], (P) -> class Button extends P
