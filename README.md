@@ -9,7 +9,7 @@ Just use bower.
 h1. How to configure requirejs
 
 PI relays on requirejs for module loading. Requirejs should be configured. The configuration
-sample file is located in js/conf/requirejs.js file. There we define relative paths mapping to real paths
+sample file is located in conf/requirejs.js file. There we define relative paths mapping to real paths
 mapping and requirejs "shims" -- workarounds for non-AMD modules.
 
 Example:
