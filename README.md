@@ -4,7 +4,9 @@ PI -- Processing Instructions. Get html-elements live.
 
 h1. How to install
 
-Just use bower.
+Just use bower:
+
+bower install pi
 
 h1. How to configure requirejs
 
@@ -40,3 +42,7 @@ for proper loading sequence:
          exports: "markdown"
       },
    }
+
+h1. How to use
+
+The router.cs is the main processor, you need to load it with requirejs
