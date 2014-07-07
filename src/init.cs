@@ -1,4 +1,4 @@
-require ["/conf/requirejs"], (Conf) ->
+require ["conf/requirejs"], (Conf) ->
    require.config Conf
 
    require ["router", "lib/jquery"], (Router, JQuery) ->
