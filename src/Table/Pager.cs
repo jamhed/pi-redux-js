@@ -30,10 +30,12 @@ define ["a/Pi"], (aPi) -> class TablePager extends aPi
    forward: (n) ->
       @page = if @page + n >= @page_count then @page_count-1 else @page + n
       @set_page_to_uri()
+      @notify()
 
    backward: (n) ->
       @page = if @page - n < 0 then 0 else @page - n
       @set_page_to_uri()
+      @notify()
 
    nav: (name) ->
       switch name

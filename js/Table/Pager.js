@@ -61,12 +61,14 @@ define(["a/Pi"], function(aPi) {
 
     TablePager.prototype.forward = function(n) {
       this.page = this.page + n >= this.page_count ? this.page_count - 1 : this.page + n;
-      return this.set_page_to_uri();
+      this.set_page_to_uri();
+      return this.notify();
     };
 
     TablePager.prototype.backward = function(n) {
       this.page = this.page - n < 0 ? 0 : this.page - n;
-      return this.set_page_to_uri();
+      this.set_page_to_uri();
+      return this.notify();
     };
 
     TablePager.prototype.nav = function(name) {
