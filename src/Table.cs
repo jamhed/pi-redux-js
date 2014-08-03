@@ -12,4 +12,5 @@ define ["a/Pi"], (aPi) -> class Table extends aPi
    page: (page) -> @load page: page
 
    load: (p) ->
-      @post @a.uri, p, (@r) => @event "data", r
+      @post @a.uri, p, (@r) =>
+         @event "data", r
