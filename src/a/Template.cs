@@ -12,10 +12,11 @@ define ["a/El"], (aEl) -> class aTemplate extends aEl
             @real_set(r, tmpl)
 
    real_set: (r, tmpl) ->
+      content = @e.html()
       if @a.replace == ""
-         @ee = $(tmpl r: r, o: @)
+         @ee = $(tmpl r: r, o: @, content: content)
          @e.replaceWith @ee
          @rt.pi @ee
       else
-         @e.html tmpl r: r, o: @
+         @e.html tmpl r: r, o: @, content: content
          @rt.pi @e
