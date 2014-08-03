@@ -61,7 +61,9 @@ define ["lib/jquery", "lib/doT", "lib/URI/URI", "m/Source"], (jQuery, doT, URI, 
 
       window.onerror = (msg, url, line) => @server_log "onerror()", url, msg, line
 
-      requirejs.onError = (err) => @server_log "requirejs()", err.requireType, err.requireModules
+      requirejs.onError = (err) =>
+         @status @pi_run-1, @pi_ajax if @pi_run > 0
+         @server_log "requirejs()", err.requireType, err.requireModules, err.message
 
       @sse = $("<div>").attr("id", "pi-sse")
       @rte = $("<div>").attr("id", "pi-rte")
