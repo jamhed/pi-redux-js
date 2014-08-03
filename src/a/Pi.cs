@@ -1,4 +1,4 @@
-define [], () -> class aPi
+define ["a/Promise"], (Promise) -> class aPi
    
    # props (don't use {} as initializer, reference will be the same for all objects)
 
@@ -45,8 +45,9 @@ define [], () -> class aPi
       # must be
       @sub "rpc", (e, args) =>
          if ! @[args.method]
-            @error "Method is not defined: ", args.method, "for: ", @uid
-         args.callback @[args.method](args.args...)
+            @error "Method is not defined:", args.method, "for:", @uid
+         r = @[args.method](args.args...)
+         args.callback r if args.callback
 
       @init()
 
@@ -59,6 +60,14 @@ define [], () -> class aPi
       (
          (r) => callback(r) if callback
       ), "json"
+
+   ppost: (uri, args) ->
+      p = new Promise()
+      $.post uri, packet: JSON.stringify(args: args, query: @rt.uri.query(true), data: @data),
+      (
+         (r) => p.success(r)
+      ), "json"
+      return p
 
    # subscribe for an element events
    subscribe: (target, event, callback) -> @sub "#{target}@#{event}", (e, args) -> callback args
@@ -74,10 +83,13 @@ define [], () -> class aPi
          @pub "#{selector}@rpc", { method: method, args: args, callback: callback }
       
       if seen == 0
-         @error "Targets syntax error: ", targets, @uid
+         @error "Targets syntax error:", targets, @uid
 
    rpc_to: (target, method, args, callback) ->
       @pub "#{target}@rpc", { method: method, args: args, callback: callback }
+
+   rpc_el: (el, method, args, callback) ->
+      @msg_to el, "rpc", { method: method, args: args, callback: callback }
 
    sub: (ev, f) ->
       if m = /^(.*)\@(.*)$/.exec ev
