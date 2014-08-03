@@ -3,50 +3,26 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(["a/El"], function(P) {
-  var aContent;
+  var aContent, _ref;
   return aContent = (function(_super) {
     __extends(aContent, _super);
+
+    function aContent() {
+      _ref = aContent.__super__.constructor.apply(this, arguments);
+      return _ref;
+    }
 
     aContent.prototype.cache = null;
 
     aContent.prototype.ee = null;
 
-    function aContent() {
-      this.cache = {};
-      aContent.__super__.constructor.apply(this, arguments);
-    }
-
     aContent.prototype.init = function() {
       var _this = this;
-      this.sub("cache/clear", function(ev, args) {
-        if (args != null ? args.k : void 0) {
-          return _this.cache[args.k] = {};
-        } else {
-          return _this.cache = {};
-        }
-      });
       this.sub("router@hash/change", function(ev, args) {
-        var k, kk;
         _this.active(args.uri);
         return _this.load();
-        k = args.ev.oldURL;
-        kk = args.ev.newURL;
-        if (!_this.cache[k]) {
-          _this.cache[k] = {};
-        }
-        _this.cache[k].ee = _this.ee.detach();
-        _this.cache[k].text = _this.text;
-        _this.cache[k].uri = _this.uri;
-        if (_this.cache[kk]) {
-          _this.ee = _this.cache[kk].ee;
-          _this.text = _this.cache[kk].text;
-          _this.uri = _this.cache[kk].uri;
-          return _this.ee.appendTo(_this.e.empty());
-        } else {
-          return _this.load();
-        }
       });
-      return aContent.__super__.init.apply(this, arguments);
+      return this.load();
     };
 
     aContent.prototype.active = function(uri) {
