@@ -25,7 +25,7 @@ There is a complete sample project based on Perl Dancer: https://github.com/jamh
 # How to configure requirejs
 
 PI relays on requirejs for module loading. Requirejs should be configured. The configuration
-sample file is located in conf/requirejs.js file. There we define relative paths mapping to real paths
+sample file is located in conf/requirejs.js file. There we define relative to real paths
 mapping and requirejs "shims" -- workarounds for non-AMD modules.
 
 Example:
@@ -91,7 +91,7 @@ require ["../conf/requirejs"], (Conf) ->
 
 # How to use
 
-Every pi-element should be subclassed from Pi class. Let define a button:
+Every pi-element should be subclassed from Pi class. Let's define a button:
 
 ```
 define ["a/Pi"], (P) -> class Button extends P
