@@ -12,6 +12,8 @@ define(["a/El", "m/Source"], function(aEl, mSource) {
       return _ref;
     }
 
+    aSource.prototype.tmpl = null;
+
     aSource.prototype.attr = function() {
       return aSource.__super__.attr.apply(this, arguments).concat(["name"]);
     };
@@ -19,6 +21,15 @@ define(["a/El", "m/Source"], function(aEl, mSource) {
     aSource.prototype.set = function(text) {
       this.debug("a/Source", this.a.name);
       return new mSource(this.a.name, text);
+    };
+
+    aSource.prototype.up = function(args) {
+      var tmpl;
+      tmpl = this.rt.source(this.a.name);
+      return this.rt.pi($("<div>").append(tmpl({
+        o: args,
+        data: this.data
+      })));
     };
 
     return aSource;

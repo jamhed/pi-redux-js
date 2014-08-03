@@ -97,7 +97,10 @@ define(["lib/jquery", "lib/doT", "lib/URI/URI", "m/Source"], function(jQuery, do
         return _this.server_log("onerror()", url, msg, line);
       };
       requirejs.onError = function(err) {
-        return _this.server_log("requirejs()", err.requireType, err.requireModules);
+        if (_this.pi_run > 0) {
+          _this.status(_this.pi_run - 1, _this.pi_ajax);
+        }
+        return _this.server_log("requirejs()", err.requireType, err.requireModules, err.message);
       };
       this.sse = $("<div>").attr("id", "pi-sse");
       this.rte = $("<div>").attr("id", "pi-rte");

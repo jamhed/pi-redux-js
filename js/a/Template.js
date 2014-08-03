@@ -33,17 +33,21 @@ define(["a/El"], function(aEl) {
     };
 
     aTemplate.prototype.real_set = function(r, tmpl) {
+      var content;
+      content = this.e.html();
       if (this.a.replace === "") {
         this.ee = $(tmpl({
           r: r,
-          o: this
+          o: this,
+          content: content
         }));
         this.e.replaceWith(this.ee);
         return this.rt.pi(this.ee);
       } else {
         this.e.html(tmpl({
           r: r,
-          o: this
+          o: this,
+          content: content
         }));
         return this.rt.pi(this.e);
       }
