@@ -3,20 +3,20 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(["a/Pi"], function(aPi) {
-  var TableNav, _ref;
-  return TableNav = (function(_super) {
-    __extends(TableNav, _super);
+  var aTableNav, _ref;
+  return aTableNav = (function(_super) {
+    __extends(aTableNav, _super);
 
-    function TableNav() {
-      _ref = TableNav.__super__.constructor.apply(this, arguments);
+    function aTableNav() {
+      _ref = aTableNav.__super__.constructor.apply(this, arguments);
       return _ref;
     }
 
-    TableNav.prototype.attr = function() {
-      return TableNav.__super__.attr.apply(this, arguments).concat(["bind", "name"]);
+    aTableNav.prototype.attr = function() {
+      return aTableNav.__super__.attr.apply(this, arguments).concat(["bind", "name"]);
     };
 
-    TableNav.prototype.init = function() {
+    aTableNav.prototype.init = function() {
       var _this = this;
       return this.e.click(function(ev) {
         ev.preventDefault();
@@ -24,7 +24,7 @@ define(["a/Pi"], function(aPi) {
       });
     };
 
-    return TableNav;
+    return aTableNav;
 
   })(aPi);
 });

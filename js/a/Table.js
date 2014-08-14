@@ -3,36 +3,36 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(["a/Pi"], function(aPi) {
-  var Table, _ref;
-  return Table = (function(_super) {
-    __extends(Table, _super);
+  var aTable, _ref;
+  return aTable = (function(_super) {
+    __extends(aTable, _super);
 
-    function Table() {
-      _ref = Table.__super__.constructor.apply(this, arguments);
+    function aTable() {
+      _ref = aTable.__super__.constructor.apply(this, arguments);
       return _ref;
     }
 
-    Table.prototype.r = null;
+    aTable.prototype.r = null;
 
-    Table.prototype.attr = function() {
-      return Table.__super__.attr.apply(this, arguments).concat(["uri"]);
+    aTable.prototype.attr = function() {
+      return aTable.__super__.attr.apply(this, arguments).concat(["uri"]);
     };
 
-    Table.prototype.get_r = function() {
+    aTable.prototype.get_r = function() {
       return this.r;
     };
 
-    Table.prototype.get_id = function() {
+    aTable.prototype.get_id = function() {
       return this.e.attr('id');
     };
 
-    Table.prototype.page = function(page) {
+    aTable.prototype.page = function(page) {
       return this.load({
         page: page
       });
     };
 
-    Table.prototype.load = function(p) {
+    aTable.prototype.load = function(p) {
       var _this = this;
       return this.post(this.a.uri, p, function(r) {
         _this.r = r;
@@ -40,7 +40,7 @@ define(["a/Pi"], function(aPi) {
       });
     };
 
-    return Table;
+    return aTable;
 
   })(aPi);
 });

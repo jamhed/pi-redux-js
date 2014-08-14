@@ -3,20 +3,20 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(["a/Pi"], function(aPi) {
-  var TableRows, _ref;
-  return TableRows = (function(_super) {
-    __extends(TableRows, _super);
+  var aTableRows, _ref;
+  return aTableRows = (function(_super) {
+    __extends(aTableRows, _super);
 
-    function TableRows() {
-      _ref = TableRows.__super__.constructor.apply(this, arguments);
+    function aTableRows() {
+      _ref = aTableRows.__super__.constructor.apply(this, arguments);
       return _ref;
     }
 
-    TableRows.prototype.attr = function() {
-      return TableRows.__super__.attr.apply(this, arguments).concat(["bind", "name"]);
+    aTableRows.prototype.attr = function() {
+      return aTableRows.__super__.attr.apply(this, arguments).concat(["bind", "name"]);
     };
 
-    TableRows.prototype.init = function() {
+    aTableRows.prototype.init = function() {
       var _this = this;
       this.subscribe(this.a.bind, "data", function(rs) {
         return _this.append(rs.rr);
@@ -28,7 +28,7 @@ define(["a/Pi"], function(aPi) {
       });
     };
 
-    TableRows.prototype.append = function(rr) {
+    aTableRows.prototype.append = function(rr) {
       var r, _i, _len, _results;
       this.tmpl = this.rt.source(this.a.name);
       this.e.empty();
@@ -40,7 +40,7 @@ define(["a/Pi"], function(aPi) {
       return _results;
     };
 
-    return TableRows;
+    return aTableRows;
 
   })(aPi);
 });
