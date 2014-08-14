@@ -1,4 +1,4 @@
-define ["a/Pi"], (aPi) -> class TableRows extends aPi
+define ["a/Pi"], (aPi) -> class aTableRows extends aPi
 
    attr: -> super.concat ["bind", "name"]
 

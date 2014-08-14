@@ -1,4 +1,4 @@
-define ["a/Pi"], (aPi) -> class TableNav extends aPi
+define ["a/Pi"], (aPi) -> class aTableNav extends aPi
 
    attr: -> super.concat ["bind", "name"]
 
