@@ -1,4 +1,4 @@
-define ["a/Pi"], (aPi) -> class aTableRows extends aPi
+define ["pi/Pi"], (aPi) -> class aTableRows extends aPi
 
    attr: -> super.concat ["bind", "name"]
 
@@ -11,3 +11,4 @@ define ["a/Pi"], (aPi) -> class aTableRows extends aPi
       @tmpl = @rt.source @a.name
       @e.empty()
       @e.append @tmpl r for r in rr
+      @rt.pi @e

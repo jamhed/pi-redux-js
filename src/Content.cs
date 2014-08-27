@@ -1,4 +1,4 @@
-define ["a/El"], (P) -> class aContent extends P
+define ["pi/El"], (P) -> class aContent extends P
    
    # props
 

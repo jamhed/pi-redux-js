@@ -1,4 +1,4 @@
-define ["a/Pi"], (P) -> class aPost extends P
+define ["pi/Pi"], (P) -> class aPost extends P
 
    attr: -> super.concat ["uri", "target"]
 

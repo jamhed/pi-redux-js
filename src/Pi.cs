@@ -1,4 +1,4 @@
-define ["a/Promise"], (Promise) -> class aPi
+define ["pi/Promise"], (Promise) -> class aPi
    
    # props (don't use {} as initializer, reference will be the same for all objects)
 

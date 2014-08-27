@@ -2,7 +2,7 @@
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __slice = [].slice;
 
-define(["lib/jquery", "lib/doT", "lib/URI/URI", "m/Source"], function(jQuery, doT, URI, mSource) {
+define(["pi/lib/jquery", "pi/lib/doT", "pi/lib/URI/URI", "pi/m/Source"], function(jQuery, doT, URI, mSource) {
   var Router;
   return Router = (function() {
     Router.prototype.skipHashChangeOnce = false;

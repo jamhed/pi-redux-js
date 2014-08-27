@@ -1,4 +1,4 @@
-define ["a/Pi", "lib/URI/URI"], (aPi, URI) -> class aEl extends aPi
+define ["pi/Pi", "pi/lib/URI/URI"], (aPi, URI) -> class aEl extends aPi
 
    # props
 

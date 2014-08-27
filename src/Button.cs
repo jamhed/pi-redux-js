@@ -1,4 +1,4 @@
-define ["a/Pi"], (aPi) -> class Button extends aPi
+define ["pi/Pi"], (aPi) -> class Button extends aPi
 
    attr: -> super.concat ["target", "click"]
 

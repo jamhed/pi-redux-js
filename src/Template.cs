@@ -1,4 +1,4 @@
-define ["a/El"], (aEl) -> class aTemplate extends aEl
+define ["pi/El"], (aEl) -> class aTemplate extends aEl
 
    attr: -> super.concat ["name", "replace"]
 

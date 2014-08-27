@@ -1,4 +1,4 @@
-define ["lib/jquery", "lib/doT", "lib/URI/URI", "m/Source"], (jQuery, doT, URI, mSource) -> class Router
+define ["pi/lib/jquery", "pi/lib/doT", "pi/lib/URI/URI", "pi/m/Source"], (jQuery, doT, URI, mSource) -> class Router
 
    skipHashChangeOnce: false
    class: null

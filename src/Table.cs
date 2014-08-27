@@ -1,4 +1,4 @@
-define ["a/Pi"], (aPi) -> class aTable extends aPi
+define ["pi/Pi"], (aPi) -> class aTable extends aPi
 
    r: null
 

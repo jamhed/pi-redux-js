@@ -1,4 +1,4 @@
-define ["a/Pi", "a/Promise"], (P, Promise) -> class aForm extends P
+define ["pi/Pi", "pi/Promise"], (P, Promise) -> class aForm extends P
 
    attr: -> super.concat ["uri", "target"]
 

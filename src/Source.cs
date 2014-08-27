@@ -1,4 +1,4 @@
-define ["a/El", "m/Source"], (aEl, mSource) -> class aSource extends aEl
+define ["pi/El", "pi/m/Source"], (aEl, mSource) -> class aSource extends aEl
    
    tmpl: null
 

@@ -1,4 +1,4 @@
-define ["a/Pi"], (aPi) -> class aTablePager extends aPi
+define ["pi/Pi"], (aPi) -> class aTablePager extends aPi
 
    page: 0
    page_count: 0

@@ -29,15 +29,14 @@ define(["a/Pi"], function(aPi) {
     };
 
     aTableRows.prototype.append = function(rr) {
-      var r, _i, _len, _results;
+      var r, _i, _len;
       this.tmpl = this.rt.source(this.a.name);
       this.e.empty();
-      _results = [];
       for (_i = 0, _len = rr.length; _i < _len; _i++) {
         r = rr[_i];
-        _results.push(this.e.append(this.tmpl(r)));
+        this.e.append(this.tmpl(r));
       }
-      return _results;
+      return this.rt.pi(this.e);
     };
 
     return aTableRows;
