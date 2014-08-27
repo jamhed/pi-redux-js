@@ -28,6 +28,8 @@ PI relays on requirejs for module loading. Requirejs should be configured. The c
 sample file is located in conf/requirejs.js file. There we define relative to real paths
 mapping and requirejs "shims" -- workarounds for non-AMD modules.
 
+Third-party modules used by PI should live in pi/ prefix like shown below: 
+
 Example:
 
 ```
