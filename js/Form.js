@@ -100,6 +100,10 @@ define(["pi/Pi", "pi/Promise"], function(P, Promise) {
       return _results;
     };
 
+    aForm.prototype.grab = function(a) {
+      return this.serialize($(a.selector));
+    };
+
     aForm.prototype.send = function(a) {
       var data,
         _this = this;

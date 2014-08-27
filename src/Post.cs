@@ -1,5 +1,5 @@
 define ["pi/Pi"], (P) -> class aPost extends P
 
-   attr: -> super.concat ["uri", "target"]
+   attr: -> super.concat ["uri"]
 
-   send: (data) -> @post @a.uri, data, (r) => @rpc @a.target, r, ->
+   send: (p) -> return @ppost @a.uri, p
