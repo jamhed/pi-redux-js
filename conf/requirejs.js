@@ -1,25 +1,101 @@
 define({
    catchError: true,
    paths: {
-      "lib/URI":        "/lib/uri.js/src",
-      "lib/jquery":     "/lib/jquery/dist/jquery.min",
-      "lib/jquery-ui":  "/lib/jquery-ui/ui/minified/jquery-ui.min",
-      "lib/doT":        "/lib/doT/doT",
-      "lib/bootstrap":  "/lib/bootstrap/dist/js/bootstrap.min",
-      "lib/markdown":   "/lib/markdown/lib/markdown"
+      "pi":                "lib/pi/js",
+      "pi/lib/jquery":     "lib/jquery/dist/jquery.min",
+      "pi/lib/jquery-ui":  "lib/jquery-ui/jquery-ui.min",
+      "pi/lib/doT":        "lib/doT/doT.min",
+      "pi/lib/bootstrap":  "lib/bootstrap2.3.2/bootstrap/js/bootstrap.min",
+      "pi/lib/URI":        "lib/uri.js/src",
+      "pi/lib/markdown":   "lib/markdown/lib/markdown",
+      "pi/lib/textile":    "lib/textile-js/lib/textile",
+      "pi/lib/upload":     "lib/jquery-file-upload/js/jquery.fileupload",
+      "jquery.ui.widget": "lib/jquery-file-upload/js/vendor/jquery.ui.widget"
    },
    shim: {
-      "lib/jquery": {
+      "pi/lib/jquery": {
          exports: "jQuery"
       },
-      "lib/jquery-ui": {
-         deps: ["lib/jquery"]
+      "pi/lib/jquery-ui": {
+         deps: ["pi/lib/jquery"]
       },
-      "lib/bootstrap": {
-         deps: ["lib/jquery"]
+      "pi/lib/bootstrap": {
+         deps: ["pi/lib/jquery"]
       },
-      "lib/markdown": {
+      "pi/lib/markdown": {
          exports: "markdown"
       },
+      "pi/lib/textile": {
+         exports: "textile"
+      },
+      "lib/codemirror/lib/codemirror": {
+         exports: "CodeMirror"
+      },
+      "lib/codemirror/mode/apl/apl": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/asterisk/asterisk": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/clike/clike": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/clojure/clojure": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/cobol/cobol": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/coffeescript/coffeescript": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/commonlisp/commonlisp": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/css/css": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/d/d": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/diff/diff": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/ecl/ecl": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/erlang/erlang": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/gas/gas": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/gfm/gfm": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/go/go": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/groovy/groovy": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/haml/haml": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/haskell/haskell": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/haxe/haxe": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/htmlembedded/htmlembedded": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/htmlmixed/htmlmixed": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/http/http": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/jade/jade": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/javascript/javascript": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/jinja2/jinja2": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/less/less": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/livescript/livescript": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/lua/lua": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/markdown/markdown": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/meta.js/meta.js": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/mirc/mirc": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/ntriples/ntriples": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/ocaml/ocaml": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/pascal/pascal": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/perl/perl": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/php/php": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/pig/pig": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/properties/properties": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/python/python": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/q/q": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/r/r": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/rpm/rpm": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/rst/rst": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/ruby/ruby": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/rust/rust": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/sass/sass": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/scheme/scheme": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/shell/shell": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/sieve/sieve": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/smalltalk/smalltalk": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/smarty/smarty": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/sparql/sparql": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/sql/sql": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/stex/stex": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/tcl/tcl": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/tiddlywiki/tiddlywiki": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/tiki/tiki": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/turtle/turtle": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/vb/vb": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/vbscript/vbscript": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/velocity/velocity": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/verilog/verilog": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/xml/xml": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/xquery/xquery": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/yaml/yaml": { deps: ["lib/codemirror/lib/codemirror"] },
+      "lib/codemirror/mode/z80/z80": { deps: ["lib/codemirror/lib/codemirror"] }
    }
 });
