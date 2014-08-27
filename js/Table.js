@@ -34,32 +34,10 @@ define(["pi/Pi"], function(aPi) {
 
     aTable.prototype.load = function(p) {
       var _this = this;
-      return this.post(this.a.uri + "/table", p, function(r) {
+      return this.post(this.a.uri, p, function(r) {
         _this.r = r;
         return _this.event("data", r);
       });
-    };
-
-    aTable.prototype.update = function(p) {
-      return this.ppost(this.a.uri + "/update", p);
-    };
-
-    aTable.prototype["delete"] = function(pp) {
-      var p;
-      if ((function() {
-        var _i, _len, _ref1, _results;
-        _ref1 = pp.form;
-        _results = [];
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          p = _ref1[_i];
-          _results.push(p.name === "id");
-        }
-        return _results;
-      })()) {
-        return this.post(this.a.uri + "/delete", {
-          id: p.value
-        });
-      }
     };
 
     return aTable;

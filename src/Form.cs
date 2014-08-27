@@ -40,8 +40,6 @@ define ["pi/Pi", "pi/Promise"], (P, Promise) -> class aForm extends P
                   i.val f.value
                   i.attr "item_val", f["item_val"] if f["item_val"]
 
-   grab: (a) -> return @serialize $(a.selector)
-
    send: (a) ->
       data = @serialize $(a.selector)
       return @ppost(@a.uri, data).then (r) =>

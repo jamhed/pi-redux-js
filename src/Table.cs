@@ -11,9 +11,6 @@ define ["pi/Pi"], (aPi) -> class aTable extends aPi
 
    page: (page) -> @load page: page
 
-   load: (p) -> @post @a.uri + "/table", p, (@r) => @event "data", r
-
-   update: (p) -> return @ppost @a.uri + "/update", p
-
-   delete: (pp) ->
-      @post @a.uri + "/delete", id: p.value if p.name == "id" for p in pp.form
+   load: (p) ->
+      @post @a.uri, p, (@r) =>
+         @event "data", r

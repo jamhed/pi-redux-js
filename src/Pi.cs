@@ -169,17 +169,3 @@ define ["pi/Promise"], (Promise) -> class aPi
    unsub: -> @e.off arguments...
 
    append: (tmpl, args) -> @rt.append tmpl, args
-
-   chain: (targets, args = @data) ->
-      msgre = /^\s*(.*?)\@(\S+)\s*(.*)$/g
-
-      while m = msgre.exec targets
-         [selector, method, rest] = [m[1], m[2], m[3]]
-         @pub "#{selector}@rpc",
-            method: method,
-            args: [args],
-            callback: (r) =>
-               if r["then"]
-                  r.then (rs) => @chain(rest, rs)
-               else
-                  @chain(rest, r)
