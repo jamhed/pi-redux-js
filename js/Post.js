@@ -13,14 +13,11 @@ define(["pi/Pi"], function(P) {
     }
 
     aPost.prototype.attr = function() {
-      return aPost.__super__.attr.apply(this, arguments).concat(["uri", "target"]);
+      return aPost.__super__.attr.apply(this, arguments).concat(["uri"]);
     };
 
-    aPost.prototype.send = function(data) {
-      var _this = this;
-      return this.post(this.a.uri, data, function(r) {
-        return _this.rpc(_this.a.target, r, function() {});
-      });
+    aPost.prototype.send = function(p) {
+      return this.ppost(this.a.uri, p);
     };
 
     return aPost;

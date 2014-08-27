@@ -13,19 +13,60 @@ define(["pi/Pi"], function(P) {
     }
 
     aClick.prototype.attr = function() {
-      return aClick.__super__.attr.apply(this, arguments).concat(["target"]);
+      return aClick.__super__.attr.apply(this, arguments).concat(["uri", "target", "chain"]);
     };
 
     aClick.prototype.init = function() {
       var _this = this;
       return this.e.click(function(ev) {
         ev.preventDefault();
-        return _this.click();
+        if (_this.a.chain) {
+          return _this.chain(_this.a.chain);
+        }
+        if (_this.a.uri) {
+          return _this.send();
+        } else {
+          return _this.click();
+        }
       });
     };
 
     aClick.prototype.click = function() {
       return this.rpc(this.a.target, [this.data]);
+    };
+
+    aClick.prototype.send = function() {
+      var _this = this;
+      return this.post(this.a.uri, this.data, function(r) {
+        return _this.rpc(_this.a.target, [r]);
+      });
+    };
+
+    aClick.prototype.chain = function(targets, args) {
+      var m, method, msgre, rest, selector, _ref1, _results,
+        _this = this;
+      if (args == null) {
+        args = this.data;
+      }
+      msgre = /^\s*(.*?)\@(\S+)\s*(.*)$/g;
+      _results = [];
+      while (m = msgre.exec(targets)) {
+        _ref1 = [m[1], m[2], m[3]], selector = _ref1[0], method = _ref1[1], rest = _ref1[2];
+        _results.push(this.pub("" + selector + "@rpc", {
+          method: method,
+          args: [args],
+          callback: function(r) {
+            if (r["then"]) {
+              return r.then(function(rs) {
+                return _this.chain(rest, rs);
+              });
+            } else {
+              return _this.chain(rest, r);
+            }
+          }
+        }));
+      }
+      return _results;
     };
 
     return aClick;
