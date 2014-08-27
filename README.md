@@ -31,34 +31,41 @@ mapping and requirejs "shims" -- workarounds for non-AMD modules.
 Example:
 
 ```
-paths: {
-   "lib/URI":        "/lib/uri.js/src",
-   "lib/jquery":     "/lib/jquery/dist/jquery.min",
-   "lib/jquery-ui":  "/lib/jquery-ui/ui/minified/jquery-ui.min",
-   "lib/doT":        "/lib/doT/doT",
-   "lib/bootstrap":  "/lib/bootstrap/dist/js/bootstrap.min",
-   "lib/markdown":   "/lib/markdown/lib/markdown"
-},
+   paths: {
+      "pi":                "lib/pi/js",
+      "pi/lib/jquery":     "lib/jquery/dist/jquery.min",
+      "pi/lib/jquery-ui":  "lib/jquery-ui/jquery-ui.min",
+      "pi/lib/doT":        "lib/doT/doT.min",
+      "pi/lib/bootstrap":  "lib/bootstrap2.3.2/bootstrap/js/bootstrap.min",
+      "pi/lib/URI":        "lib/uri.js/src",
+      "pi/lib/markdown":   "lib/markdown/lib/markdown",
+      "pi/lib/textile":    "lib/textile-js/lib/textile",
+      "pi/lib/upload":     "lib/jquery-file-upload/js/jquery.fileupload",
+   },
+
 ```
 
 Shims for non-AMD modules force requirejs to assign a variable with module for later use and dependency
 for proper loading sequence:
 
 ```
-shim: {
-   "lib/jquery": {
-      exports: "jQuery"
-   },
-   "lib/jquery-ui": {
-      deps: ["lib/jquery"]
-   },
-   "lib/bootstrap": {
-      deps: ["lib/jquery"]
-   },
-   "lib/markdown": {
-      exports: "markdown"
-   },
-}
+   shim: {
+      "pi/lib/jquery": {
+         exports: "jQuery"
+      },
+      "pi/lib/jquery-ui": {
+         deps: ["pi/lib/jquery"]
+      },
+      "pi/lib/bootstrap": {
+         deps: ["pi/lib/jquery"]
+      },
+      "pi/lib/markdown": {
+         exports: "markdown"
+      },
+      "pi/lib/textile": {
+         exports: "textile"
+      }
+   }
 ```
 
 # Sample site
@@ -76,7 +83,7 @@ Then just point a web-server to serve pages from sample as root folder.
 The router.cs is the main processor, you need to load it with requirejs:
 
 ```
-<script type="text/javascript" src="/lib/requirejs/require.js" data-main="/lib/pi/js/init.js"></script>
+<script type="text/javascript" src="/lib/requirejs/require.js" data-main="/js/public.js"></script>
 ```
 
 init.js (a compiled version of init.cs) just loads our requirejs conf and instantiates the router.cs:
@@ -94,7 +101,7 @@ require ["../conf/requirejs"], (Conf) ->
 Every pi-element should be subclassed from Pi class. Let's define a button:
 
 ```
-define ["a/Pi"], (P) -> class Button extends P
+define ["pi/Pi"], (P) -> class Button extends P
 
    attr: -> super.concat ["target", "click"]
 
