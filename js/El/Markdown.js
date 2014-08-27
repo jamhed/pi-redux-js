@@ -2,7 +2,7 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(["a/Pi", "lib/markdown"], function(aPi, Markdown) {
+define(["pi/Pi", "pi/lib/markdown"], function(aPi, Markdown) {
   var elMarkdown, _ref;
   return elMarkdown = (function(_super) {
     __extends(elMarkdown, _super);
