@@ -42,33 +42,6 @@ define(["pi/Pi"], function(P) {
       });
     };
 
-    aClick.prototype.chain = function(targets, args) {
-      var m, method, msgre, rest, selector, _ref1, _results,
-        _this = this;
-      if (args == null) {
-        args = this.data;
-      }
-      msgre = /^\s*(.*?)\@(\S+)\s*(.*)$/g;
-      _results = [];
-      while (m = msgre.exec(targets)) {
-        _ref1 = [m[1], m[2], m[3]], selector = _ref1[0], method = _ref1[1], rest = _ref1[2];
-        _results.push(this.pub("" + selector + "@rpc", {
-          method: method,
-          args: [args],
-          callback: function(r) {
-            if (r["then"]) {
-              return r.then(function(rs) {
-                return _this.chain(rest, rs);
-              });
-            } else {
-              return _this.chain(rest, r);
-            }
-          }
-        }));
-      }
-      return _results;
-    };
-
     return aClick;
 
   })(P);
