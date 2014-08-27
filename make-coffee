@@ -1,0 +1,32 @@
+#!/bin/bash
+
+COFFEE="coffee -bc -o"
+
+function on_exit()
+{
+   PID=`jobs -p`
+   echo "COFFEE $PID"
+   kill -ILL $PID >/dev/null 2>&1
+   exit 0
+}
+
+trap on_exit SIGINT SIGTERM EXIT
+
+WATCH="src/"
+for SYMLINK in `find src/ -type l`
+do
+   REF=src/`readlink $SYMLINK`
+   REFDIR=`dirname $REF`
+   WATCH="${WATCH} $REFDIR"
+done
+echo $WATCH
+
+inotifywait -m -q -e modify -r $WATCH | while read P E F
+do
+   if [[ "$F" = *.cs ]] ; then
+      TARGET=./`echo $P | sed -r 's/^.*\bsrc\b/js/'`
+      echo `date +'%Y-%m-%d %H:%M:%S'` $P $E $F $COFFEE -o $TARGET $P$F
+      mkdir -p $TARGET
+      $COFFEE $TARGET $P$F
+   fi
+done
