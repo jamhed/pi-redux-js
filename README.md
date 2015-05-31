@@ -85,7 +85,7 @@ Then just point a web-server to serve pages from sample as root folder.
 The router.cs is the main processor, you need to load it with requirejs:
 
 ```
-<script type="text/javascript" src="/lib/requirejs/require.js" data-main="/js/public.js"></script>
+<script type="text/javascript" src="/lib/requirejs/require.js" data-main="/js/init.js"></script>
 ```
 
 init.js (a compiled version of init.cs) just loads our requirejs conf and instantiates the router.cs:
