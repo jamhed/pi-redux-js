@@ -18,7 +18,7 @@ define ["pi/Pi", "pi/lib/URI/URI"], (aPi, URI) -> class aEl extends aPi
          return @set @e.html()
    
       if @a.get == "" || @a.get
-         $.get @uri.fragment(), @uri.query(), (text) => @set text
+         $.get @uri.fragment() + ".html", @uri.query(), (text) => @set text
       else
          @post @uri.fragment(), {}, (text) => @set text
 
