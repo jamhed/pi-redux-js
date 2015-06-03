@@ -7,6 +7,7 @@ define ["pi/Promise"], (Promise) -> class aPi
    e:          null
    rt:         null
    uid:        null
+   subs_to:    null
    
    waitTimeout: 5000
    retryTimeout: 100
@@ -37,6 +38,7 @@ define ["pi/Promise"], (Promise) -> class aPi
    fragmentGet: (k) -> @_localget(@rt.uri.fragment() + "/" + k)
 
    constructor: (@rt, @e, @uid) ->
+      @subs_to = {}
       @a = {}
       @a[a] = @e.attr(a) for a in @attr()
       @data = $.extend({}, @e.data())
@@ -92,6 +94,7 @@ define ["pi/Promise"], (Promise) -> class aPi
       @msg_to el, "rpc", { method: method, args: args, callback: callback }
 
    sub: (ev, f) ->
+      @subs_to[ev] = 1
       if m = /^(.*)\@(.*)$/.exec ev
          [source, ev] = [m[1], m[2]]
          if source == "server"
@@ -166,9 +169,28 @@ define ["pi/Promise"], (Promise) -> class aPi
    
    wait_ajax_done: (action) -> @wait_existance "#pi-status[ajax=0][run=0]", action
 
-   unsub: -> @e.off arguments...
+   unsub: (ev) ->
+      delete @subs_to[ev]
+      if m = /^(.*)\@(.*)$/.exec ev
+         [source, ev] = [m[1], m[2]]
+         if source == "server"
+            @rt.sse.off ev
+         else if source == "router"
+            @rt.rte.off ev
+         else
+            $(source).off ev
+      else
+         @e.off ev
 
    append: (tmpl, args) -> @rt.append tmpl, args
+
+   die: ->
+      console.log "DEAD", @uid, @subs_to
+      for k,v of @subs_to
+         @unsub k
+      @e    = null
+      @rt   = null
+      @a    = null
 
    chain: (targets, args = @data) ->
       msgre = /^\s*(.*?)\@(\S+)\s*(.*)$/g

@@ -20,6 +20,11 @@ define ["pi/El"], (P) -> class aContent extends P
       $(".navbar a[href=\"#{uri.hash()}\"]").parent().addClass "active"
  
    set: (@text) ->
+      # time to die
+      $("[pi]", @e).each (i,_e) =>
+         e = $ _e
+         @rpc_el e, "die"
+
       @e.empty()
       @ee = $("<div>").html(@text).appendTo(@e)
       @rt.pi @ee
