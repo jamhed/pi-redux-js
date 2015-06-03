@@ -1,8 +1,7 @@
-define ["pi/Pi", "pi/lib/URI/URI"], (aPi, URI) -> class aEl extends aPi
+define ["pi/Pi"], (aPi) -> class aEl extends aPi
 
    # props
 
-   uri:  null
    text: null
 
    # methods
@@ -10,17 +9,17 @@ define ["pi/Pi", "pi/lib/URI/URI"], (aPi, URI) -> class aEl extends aPi
    attr: -> super.concat ["uri", "get"]
 
    init: ->
-      @uri = URI "#" + @a.uri
       @load()
 
    load: ->
       if @a.uri == undefined
          return @set @e.html()
    
+      uri = @parse_uri()
       if @a.get == "" || @a.get
-         $.get @uri.fragment() + ".html", @uri.query(), (text) => @set text
+         $.get uri.fragment() + ".html", uri.query(), (text) => @set text
       else
-         @post @uri.fragment(), {}, (text) => @set text
+         @post uri.fragment(), {}, (text) => @set text
 
    set: (@text) ->
       @e.html @text

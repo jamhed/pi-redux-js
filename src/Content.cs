@@ -1,5 +1,7 @@
 define ["pi/El"], (P) -> class aContent extends P
    
+   attr: -> super.concat ["router"]
+
    # props
 
    cache: null
@@ -9,9 +11,7 @@ define ["pi/El"], (P) -> class aContent extends P
 
    init: ->
 
-      @sub "router@hash/change", (ev, args) =>
-         @active args.uri
-         return @load()
+      @sub "#{@a.router}@hash/change", (ev, args) => return @load(args)
 
       @load()
             
@@ -29,7 +29,6 @@ define ["pi/El"], (P) -> class aContent extends P
       @ee = $("<div>").html(@text).appendTo(@e)
       @rt.pi @ee
    
-   load: ->
-      @uri = @rt.uri
-      @active @uri
+   load: (uri = @parse_uri()) ->
+      @active uri
       super

@@ -1,4 +1,4 @@
-define ["pi/Promise"], (Promise) -> class aPi
+define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
    
    # props (don't use {} as initializer, reference will be the same for all objects)
 
@@ -7,7 +7,9 @@ define ["pi/Promise"], (Promise) -> class aPi
    e:          null
    rt:         null
    uid:        null
-   subs_to:    null
+
+   cb_table:   null
+   hn_table:   null
    
    waitTimeout: 5000
    retryTimeout: 100
@@ -31,31 +33,31 @@ define ["pi/Promise"], (Promise) -> class aPi
    localSet: (k,v) -> @_localset(@uid + "/" + k, v);
    localGet: (k)   -> @_localget(@uid + "/" + k)
 
-   globalSet: (k,v) -> @_localset(@rt.uri.fragment() + "/" + @uid + "/" + k, v)
-   globalGet: (k)   -> @_localget(@rt.uri.fragment() + "/" + @uid + "/" + k)
-
-   fragmentSet: (k,v) -> @_localset(@rt.uri.fragment() + "/" + k, v)
-   fragmentGet: (k) -> @_localget(@rt.uri.fragment() + "/" + k)
-
    constructor: (@rt, @e, @uid) ->
-      @subs_to = {}
+      @cb_table = {}
+      @hn_table = {}
       @a = {}
       @a[a] = @e.attr(a) for a in @attr()
       @data = $.extend({}, @e.data())
       @uid = @a.uid if @a.uid
 
       # must be
-      @sub "rpc", (e, args) =>
+
+      @handler "rpc", (e, args) =>
          if ! @[args.method]
             @error "Method is not defined:", args.method, "for:", @uid
          r = @[args.method](args.args...)
          args.callback r if args.callback
 
+      @handler "bound", (e, args) => @
+
       @init()
 
    init: ->
 
-   debug: -> @rt.debug arguments...
+   debug: ->
+      $("#log").append arguments, "\n"
+      @rt.debug arguments...
    error: -> @rt.error arguments...
 
    post: (uri, args, callback) -> $.post uri, packet: JSON.stringify(args: args, query: @rt.uri.query(true), data: @data),
@@ -70,9 +72,6 @@ define ["pi/Promise"], (Promise) -> class aPi
          (r) => p.success(r)
       ), "json"
       return p
-
-   # subscribe for an element events
-   subscribe: (target, event, callback) -> @sub "#{target}@#{event}", (e, args) -> callback args
 
    # rpc: call method defined for pi-element defined by target
    rpc: (targets, args, callback) ->
@@ -93,22 +92,46 @@ define ["pi/Promise"], (Promise) -> class aPi
    rpc_el: (el, method, args, callback) ->
       @msg_to el, "rpc", { method: method, args: args, callback: callback }
 
-   sub: (ev, f) ->
-      @subs_to[ev] = 1
-      if m = /^(.*)\@(.*)$/.exec ev
-         [source, ev] = [m[1], m[2]]
-         if source == "server"
-            @rt.sse.on ev, (_e, args) => f _e, args.args, args.caller
-         else if source == "router"
-            @rt.rte.on ev, (_e, args) => f _e, args.args, args.caller
-         else
-            $(source).on ev, (_e, args) => f _e, args.args, args.caller
+   handler: (ev, f) ->
+      @e.on ev, (_e, args) => f(_e, args.args, args.caller)
+
+   sub: (ev_full, f) ->
+      @cb_table[ev_full] = f
+      if m = /^(.*)\@(.*)$/.exec ev_full
+         [target, ev_short] = [m[1], m[2]]
+         @rpc_to target, "handler_table", [@uid, ev_full, ev_short]
+
+   unsub: (ev_full) ->
+      delete @cb_table[ev_full]
+      if m = /^(.*)\@(.*)$/.exec ev_full
+         [target, ev_short] = [m[1], m[2]]
+         @rpc_to target, "unhandler_table", [@uid, ev_full, ev_short]
+
+   unhandler_table: (sender_uid, ev_full, ev_short) ->
+      # @debug "unhandler_table", sender_uid, ev_full, ev_short
+      if @hn_table[ev_short]
+         delete @hn_table[ev_short][sender_uid]
+
+   callback: (ev_full, _e, args) ->
+      # @debug "callback", ev_full, _e, args
+      @cb_table[ev_full](_e, args.args)
+
+   handler_table: (sender_uid, ev_full, ev_short) ->
+      # @debug "handler_table", ev_full, ev_short
+      if @hn_table[ev_short] == undefined
+         @hn_table[ev_short] = {}
+         @hn_table[ev_short][sender_uid] = ev_full
+         @e.on ev_short, (_e, args) => @handler_table_call ev_short, _e, args
       else
-         @e.on ev, (_e, args) => f(_e, args.args, args.caller)
+         @hn_table[ev_short][sender_uid] = ev_full
+
+   handler_table_call: (ev_short, _e, args) ->
+      for sender_uid, ev_full of @hn_table[ev_short]
+         @rpc "#{sender_uid}@callback", [ev_full, _e, args]
 
    pub: (targets, args) ->
       msgre = /\s*(.*?)\@(\S+)\s*/g
-      @debug "pub()", @uid, "->", targets
+      @debug "pub()", @uid, "->", targets, args
       while m = msgre.exec targets
          [selector, message] = [m[1] || "[pi]", m[2]]
          return if ! message
@@ -169,28 +192,17 @@ define ["pi/Promise"], (Promise) -> class aPi
    
    wait_ajax_done: (action) -> @wait_existance "#pi-status[ajax=0][run=0]", action
 
-   unsub: (ev) ->
-      delete @subs_to[ev]
-      if m = /^(.*)\@(.*)$/.exec ev
-         [source, ev] = [m[1], m[2]]
-         if source == "server"
-            @rt.sse.off ev
-         else if source == "router"
-            @rt.rte.off ev
-         else
-            $(source).off ev
-      else
-         @e.off ev
-
    append: (tmpl, args) -> @rt.append tmpl, args
 
+   parse_uri: ->
+      @uri = URI window.location.hash.replace(/^\#\!/, "#").replace(/^(.*)\?(.*)$/,"?$2$1")
+      @uri.hash("content") if @uri.hash() == "" or @uri.hash() == "index"
+      return @uri
+
    die: ->
-      console.log "DEAD", @uid, @subs_to
-      for k,v of @subs_to
-         @unsub k
-      @e    = null
-      @rt   = null
-      @a    = null
+      for ev_full,v of @cb_table
+         @debug "DEAD", @uid, ev_full
+         @unsub ev_full
 
    chain: (targets, args = @data) ->
       msgre = /^\s*(.*?)\@(\S+)\s*(.*)$/g

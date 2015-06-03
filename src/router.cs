@@ -1,10 +1,8 @@
 define ["pi/lib/jquery", "pi/lib/doT", "pi/lib/URI/URI", "pi/m/Source"], (jQuery, doT, URI, mSource) -> class Router
 
-   skipHashChangeOnce: false
    class: null
    count: null
    css: null
-   uri: null
    sse: null   # server-side events proxy
    rte: null   # router-side events proxy
    
@@ -31,19 +29,11 @@ define ["pi/lib/jquery", "pi/lib/doT", "pi/lib/URI/URI", "pi/m/Source"], (jQuery
       @class   = {}
       @count   = {}
       @css     = {}
-      @uri     = @parse_uri()
 
       if window.console && Function.prototype.bind && (typeof console.log == "object" || typeof console.log == "function")
          @debug = Function.prototype.bind.call(console.log, console)
          @error = Function.prototype.bind.call(console.error, console)
-
-      window.onhashchange = (ev) =>
-         if @skipHashChangeOnce
-            @skipHashChangeOnce = false
-            return
-            
-         @rte.triggerHandler "hash/change", args: ev: ev, uri: @parse_uri()
-      
+     
       $(document).ajaxSend (ev, xhr, r) =>
          @status @pi_run, @pi_ajax+1
 
@@ -80,20 +70,6 @@ define ["pi/lib/jquery", "pi/lib/doT", "pi/lib/URI/URI", "pi/m/Source"], (jQuery
          return if r then tmpl r else tmpl
       else
          @server_log "No template with name #{name}"
-
-   set_uri: (uri = @uri) ->
-      window.location.hash = uri.hash() + uri.search()
-
-   set_hash: (s) -> window.location.hash = s
-
-   set_uri_without_event: ->
-      @skipHashChangeOnce = true
-      window.location.hash = @uri.hash() + @uri.search()
-
-   parse_uri: ->
-      @uri = URI window.location.hash.replace(/^\#\!/, "#").replace(/^(.*)\?(.*)$/,"?$2$1")
-      @uri.hash("content") if @uri.hash() == "" or @uri.hash() == "index"
-      return @uri
 
    pi_bind: (name, e) ->
       if e.attr "processed"
