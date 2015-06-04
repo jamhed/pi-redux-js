@@ -45,7 +45,7 @@ define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
 
       @handler "rpc", (e, args) =>
          if ! @[args.method]
-            @error "Method is not defined:", args.method, "for:", @uid
+            return @error "Method is not defined:", args.method, "for:", @uid
          r = @[args.method](args.args...)
          args.callback r if args.callback
 
