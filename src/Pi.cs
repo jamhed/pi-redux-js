@@ -33,6 +33,8 @@ define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
    localSet: (k,v) -> @_localset(@uid + "/" + k, v);
    localGet: (k)   -> @_localget(@uid + "/" + k)
 
+   self: -> @
+
    constructor: (@rt, @e, @uid) ->
       @cb_table = {}
       @hn_table = {}
