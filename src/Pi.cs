@@ -206,7 +206,7 @@ define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
          @debug "DEAD", @uid, ev_full
          @unsub ev_full
 
-   empty: (scope = @e) ->
+   clear: (scope = @e) ->
       # time to die
       $("[pi]", scope).each (i,_e) =>
          e = $ _e

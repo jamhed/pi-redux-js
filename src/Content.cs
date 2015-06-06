@@ -20,7 +20,7 @@ define ["pi/El"], (P) -> class aContent extends P
       $(".navbar a[href=\"#{uri.hash()}\"]").parent().addClass "active"
  
    set: (@text) ->
-      @empty()
+      @clear()
       @ee = $("<div>").html(@text).appendTo(@e)
       @rt.pi @ee
    
