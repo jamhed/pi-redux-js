@@ -7,7 +7,7 @@ Processing Instructions. Make html elements live.
 * coffee-script classes
 * messages to server and to other pi-elements
 
-[General documentation](GENDOC.md)
+[General documentation](GENDOC.md), [Introduction](INTRO.md)
 
 # Design
 
