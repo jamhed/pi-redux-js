@@ -16,6 +16,7 @@ define ["pi/lib/jquery", "pi/lib/doT", "pi/lib/URI/URI", "pi/m/Source"], (jQuery
    error: ->
 
    server_log: (err...) ->
+      return console.log err
       img = new Image()
       img.src = "/jserr?msg=" + encodeURIComponent( err.join(" ") )
       @error err.join " "

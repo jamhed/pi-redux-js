@@ -143,7 +143,7 @@ define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
                @msg_to el, message, args
             else
                do (el, message, args) =>
-                  @wait (() => el.attr "processed"), () => @msg_to el, message, args
+                  @wait (() => el.attr "processed"), (() => @msg_to el, message, args), "pub() #{targets}"
          else if selector == "server"
             @post message, args
          else if selector == "router"
@@ -155,11 +155,11 @@ define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
                @msg_to el, message, args
             else
                do (el, message, args) =>
-                  @wait (() => el.attr "processed"), () => @msg_to el, message, args
+                  @wait (() => el.attr "processed"), (() => @msg_to el, message, args), "pub() #{targets}"
          else
             if ! $(selector).length || ! $(selector).attr "processed"
                do (selector, message, args) =>
-                  @wait (() => @exists(selector)), () => @send_message selector, message, args
+                  @wait (() => @exists(selector)), (() => @send_message selector, message, args), "pub() #{targets}"
             else
                @send_message selector, message, args
 
@@ -178,7 +178,7 @@ define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
 
    exists: (selector) -> $(selector).length > 0
 
-   wait: (check, action) ->
+   wait: (check, action, error = "") ->
       start = new Date().getTime()
       handler = setInterval (() =>
          status = check()
@@ -186,7 +186,7 @@ define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
             clearInterval handler
             action()
          if (new Date().getTime() - start > @waitTimeout)
-            @rt.server_log "wait() timeout", check, action
+            @rt.server_log "wait() timeout", error
             clearInterval handler
       ), @retryTimeout
 
