@@ -8,7 +8,7 @@ with this html element.
 
 # Javascript module dependencies
 
-All javascript modules load by require.js library. Require.js also manages
+All javascript modules load by [require.js](http://requirejs.org) library. Require.js also manages
 module dependencies. Each module specify its dependencies by define call:
 ```
 define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
@@ -16,8 +16,7 @@ define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
 # Templates
 
 Templates are text chunks of selected templating system. Default (and one actually implemented)
-is based on doT templating, chosen for spead. doT templates are just HTML with {{ INST }}
-instructions.
+is based on [doT](https://github.com/olado/doT) templating, chosen for spead. doT templates are just HTML with {{ INST }} instructions.
 
 Templates are either files served from server or named chunks in source html files. Later
 templates are referenced by the name specified or the file name.
@@ -28,7 +27,6 @@ Here is how to define a template in HTML:
 <script pi="pi/Source" name="button/login" type="text/x-dot">
 <button type="submit" class="btn btn-default" pi="Login" dialog="dialog/login">Login</button>
 </script>
-
 ```
 
 # Messages
