@@ -7,6 +7,8 @@ Processing Instructions. Make html elements live.
 * coffee-script classes
 * messages to server and to other pi-elements
 
+[General documentation](GENDOC.md)
+
 # Design
 
 Allows to bind any html-element to an instance of a Pi-derived class. The content
