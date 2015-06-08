@@ -1,3 +1,5 @@
+# Core concepts
+
 # Processing Instructions
 
 After the index page loads also loads and instantiates main processing module named
@@ -37,3 +39,19 @@ following format:
 selector@message
 ```
 where selector is standard jQuery html selector, and message is a text string.
+
+# Pub/sub mechanism
+
+Each element can subscribe to events on other elements by callin @sub method:
+```
+@sub "#bullet@conv/status/part", (e,args) => @clear()
+```
+
+# Call a function on element
+
+```
+@rpc "selector@method", [arg1, ..., argN], callback
+```
+
+# Postbacks
+
