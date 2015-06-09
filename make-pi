@@ -12,10 +12,11 @@ do
    TARGET=`eval $CMD`
    CMD="echo $F | sed -r 's/${SOURCE_PATH}$/${TARGET_PATH}/'"
    FJ=`eval $CMD`
-   echo "NEWER, SKIP: $P/$F $TARGET/$FJ"
    if test "$P/$F" -nt "$TARGET/$FJ"; then
       echo $COFFEE $TARGET $P/$F
       mkdir -p $TARGET
       $COFFEE $TARGET $P/$F
+   else
+      echo "NEWER, SKIP: $P/$F $TARGET/$FJ"
    fi
 done
