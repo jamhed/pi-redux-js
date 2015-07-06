@@ -1,4 +1,4 @@
-define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
+define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) -> class aPi
    
    # props (don't use {} as initializer, reference will be the same for all objects)
 
@@ -38,8 +38,8 @@ define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
    constructor: (@rt, @e, @uid) ->
       @cb_table = {}
       @hn_table = {}
-      @a = {}
-      @a[a] = @e.attr(a) for a in @attr()
+      @a ?= {}
+      @a[a] ?= @e.attr(a) for a in @attr()
       @data = $.extend({}, @e.data())
       @uid = @a.uid if @a.uid
 
@@ -193,6 +193,8 @@ define ["pi/Promise", "pi/lib/URI/URI"], (Promise, URI) -> class aPi
    wait_existance: (selector, action) -> @wait (() => @exists selector), action
    
    wait_ajax_done: (action) -> @wait_existance "#pi-status[ajax=0][run=0]", action
+
+   tmpl: (name) -> mSource.get name
 
    append: (tmpl, args) -> @rt.append tmpl, args
 
