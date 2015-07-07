@@ -23,13 +23,13 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
       try
          localStorage[k]
       catch e
-         @debug "localstorage fail."
+         @error "localstorage fail."
       
    _localset: (k,v) -> 
       try
          localStorage[k] = v
       catch e
-         @debug "localstorage fail set."
+         @error "localstorage fail set."
 
    localSet: (k,v) -> @_localset(@uid + "/" + k, v);
    localGet: (k)   -> @_localget(@uid + "/" + k)
@@ -100,16 +100,16 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
          @rpc_to target, "unhandler_table", [@uid, ev_full, ev_short]
 
    unhandler_table: (sender_uid, ev_full, ev_short) ->
-      # @debug "unhandler_table", sender_uid, ev_full, ev_short
+      @debug "pi", "unhandler_table", sender_uid, ev_full, ev_short
       if @hn_table[ev_short]
          delete @hn_table[ev_short][sender_uid]
 
    callback: (ev_full, _e, args) ->
-      # @debug "callback", ev_full, _e, args
+      @debug "pi", "callback", ev_full, _e, args
       @cb_table[ev_full](_e, args.args)
 
    handler_table: (sender_uid, ev_full, ev_short) ->
-      # @debug "handler_table", ev_full, ev_short
+      @debug "pi", "handler_table", ev_full, ev_short
       if @hn_table[ev_short] == undefined
          @hn_table[ev_short] = {}
          @hn_table[ev_short][sender_uid] = ev_full
@@ -183,7 +183,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
             clearInterval handler
             action()
          if (new Date().getTime() - start > @waitTimeout)
-            @debug "wait() timeout", error
+            @error "wait() timeout", error
             clearInterval handler
       ), @retryTimeout
 
@@ -209,7 +209,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
 
    die: ->
       for ev_full,v of @cb_table
-         @debug "DEAD", @uid, ev_full
+         @debug "pi", "DEAD", @uid, ev_full
          @unsub ev_full
 
    clear: (scope = @e) ->

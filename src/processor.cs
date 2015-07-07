@@ -10,8 +10,8 @@ define ["pi/lib/jquery", "pi/Logger"], (jQuery, Logger) -> class Processor
    pi_run: 0
    pi_ajax: 0
    
-   debug: -> @logger.debug arguments...
-   err: -> @logger.err arguments...
+   debug: -> @logger.debug "processor", arguments...
+   err: -> @logger.err "processor", arguments...
 
    update_status: (@pi_run, @pi_ajax) ->
       @debug "pi status: #{@pi_ajax} #{@pi_run}"
@@ -74,7 +74,7 @@ define ["pi/lib/jquery", "pi/Logger"], (jQuery, Logger) -> class Processor
          while s = ustack.shift()
             Name = Names.shift()
             if ! @class[name]
-               @debug 3, "pi stacked", s.name
+               @debug "pi stacked", s.name
                @class[s.name] = Name
                Name.init @
 

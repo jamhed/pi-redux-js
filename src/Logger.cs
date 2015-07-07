@@ -1,10 +1,12 @@
-define [], -> class Logger
+define ["pi/conf/logger.js"], (Conf) -> class Logger
 
 	sys_debug: ->
 	sys_error: ->
 
 	debug: ->
-		@sys_debug arguments...
+		[module, args...] = arguments
+		if not Conf[module]? or Conf[module]
+			@sys_debug module, args...
 	
 	err: ->
 		@sys_error arguments...
