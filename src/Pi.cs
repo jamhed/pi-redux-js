@@ -1,12 +1,13 @@
-define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) -> class aPi
+define ["pi/lib/URI/URI", "pi/m/Source"], (URI, mSource) -> class aPi
    
    # props (don't use {} as initializer, reference will be the same for all objects)
 
    a:          null
    data:       null
    e:          null
-   rt:         null
    uid:        null
+
+   processor:  null
 
    cb_table:   null
    hn_table:   null
@@ -14,7 +15,7 @@ define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) 
    waitTimeout: 5000
    retryTimeout: 100
 
-   @init: ->
+   @init: -> # class method, called from processor on module load
 
    attr: -> ["uid"]
 
@@ -22,20 +23,20 @@ define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) 
       try
          localStorage[k]
       catch e
-         @rt.server_log "localstorage fail."
+         @debug "localstorage fail."
       
    _localset: (k,v) -> 
       try
          localStorage[k] = v
       catch e
-         @rt.server_log "localstorage fail set."
+         @debug "localstorage fail set."
 
    localSet: (k,v) -> @_localset(@uid + "/" + k, v);
    localGet: (k)   -> @_localget(@uid + "/" + k)
 
    self: -> @
 
-   constructor: (@rt, @e, @uid) ->
+   constructor: (@processor, @e, @uid) ->
       @cb_table = {}
       @hn_table = {}
       @a ?= {}
@@ -43,11 +44,16 @@ define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) 
       @data = $.extend({}, @e.data())
       @uid = @a.uid if @a.uid
 
-      # must be
+      # debug
+      if window.console && Function.prototype.bind && (typeof console.log == "object" || typeof console.log == "function")
+         @sys_debug = Function.prototype.bind.call(console.log, console)
+      else
+         @sys_debug = ->
 
+      # event handler to call object methods via events
       @handler "rpc", (e, args) =>
          if ! @[args.method]
-            return @error "Method is not defined:", args.method, "for:", @uid
+            return @err "Method is not defined:", args.method, "for:", @uid
          r = @[args.method](args.args...)
          args.callback r if args.callback
 
@@ -55,25 +61,16 @@ define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) 
 
       @init()
 
-   init: ->
-
    debug: ->
       $("#log").append arguments, "\n"
-      @rt.debug arguments...
-   error: -> @rt.error arguments...
+      @sys_debug arguments...
 
-   post: (uri, args, callback) -> $.post uri, packet: JSON.stringify(args: args, query: @rt.uri.query(true), data: @data),
-      (
-         (r) => callback(r) if callback
-      ), "json"
-
-   ppost: (uri, args) ->
-      p = new Promise()
-      $.post uri, packet: JSON.stringify(args: args, query: @rt.uri.query(true), data: @data),
-      (
-         (r) => p.success(r)
-      ), "json"
-      return p
+   err: ->
+      @sys_debug arguments...
+      err = new Error(arguments)
+      @sys_debug err.stack
+ 
+   init: ->
 
    # rpc: call method defined for pi-element defined by target
    rpc: (targets, args, callback) ->
@@ -86,7 +83,7 @@ define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) 
          @pub "#{selector}@rpc", { method: method, args: args, callback: callback }
       
       if seen == 0
-         @error "Targets syntax error:", targets, @uid
+         @err "Targets syntax error:", targets, @uid
 
    rpc_to: (target, method, args, callback) ->
       @pub "#{target}@rpc", { method: method, args: args, callback: callback }
@@ -133,48 +130,46 @@ define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) 
 
    pub: (targets, args) ->
       msgre = /\s*(.*?)\@(\S+)\s*/g
-      @debug "pub()", @uid, "->", targets, args
       while m = msgre.exec targets
          [selector, message] = [m[1] || "[pi]", m[2]]
          return if ! message
-         if selector == "parent"
-            el = @e.parent().closest("[pi]")
-            if el.attr "processed"
-               @msg_to el, message, args
-            else
-               do (el, message, args) =>
-                  @wait (() => el.attr "processed"), (() => @msg_to el, message, args), "pub() #{targets}"
-         else if selector == "server"
-            @post message, args
-         else if selector == "router"
-            @rt.rte.triggerHandler message, args: args, caller: @
-         else if (cl = /^closest\((.*?)\)\s*(.*)$/.exec selector)
-            el = @e.closest cl[1]
-            el = el.find cl[2] if cl[2]
-            if el.attr "processed"
-               @msg_to el, message, args
-            else
-               do (el, message, args) =>
-                  @wait (() => el.attr "processed"), (() => @msg_to el, message, args), "pub() #{targets}"
-         else
-            if ! $(selector).length || ! $(selector).attr "processed"
-               do (selector, message, args) =>
-                  @wait (() => @exists(selector)), (() => @send_message selector, message, args), "pub() #{targets}"
-            else
-               @send_message selector, message, args
+         return @pub_to_parent message, args if selector == "parent"
+         return @pub_to_closest cl, message, args if (cl = /^closest\((.*?)\)\s*(.*)$/.exec selector)
+         @pub_to_selector selector, message, args
 
+   pub_to_parent: (message, args) ->
+      el = @e.parent().closest("[pi]")
+      el.attr("processed")? @msg_to el, message, args : @wait_to el, message, args
+
+   pub_to_closest: (cl, message, args) ->
+      el = @e.closest cl[1]
+      el = el.find cl[2] if cl[2]
+      el.attr("processed")? @msg_to el, message, args : @wait_to el, message, args
+
+   pub_to_selector: (selector, message, args) ->
+      if ! $(selector).length || ! $(selector).attr "processed"
+         do (selector, message, args) =>
+            @wait (() => @exists(selector)), (() => @send_message selector, message, args),
+               "pub_to_selector() #{message}"
+      else
+         @send_message selector, message, args
+
+   wait_to: (el, message, args) ->
+      @wait (() => el.attr "processed"), (() => @msg_to el, message, args), "wait_to() #{message}"
+
+   send_message_to: (el, message, args) ->
+      e = $ el
+      if ! (e.data("events") || $._data(el, "events"))?[message]
+         @err "No handler for message: #{message}, target: #{selector}" + " dst: pi=" + e.attr("pi") + " src: pi=" + o.uid
+      else
+         @msg_to e, message, args
+   
    send_message: (selector, message, args) ->
-      o = @
-      $(selector).each (i, _e) ->
-         e = $ _e
-         if ! (e.data("events") || $._data(_e, "events"))?[message]
-            o.rt.server_log "@pub() no handler on message: #{message}, target: #{selector}" + " dst: pi=" + e.attr("pi") + " src: pi=" + o.uid
-         else
-            o.msg_to $(e), message, args
-
-   event: (message, args) -> @msg_to @e, message, args
+      $(selector).each (i, _e) => @send_message_to _e, message, args
 
    msg_to: (target, message, args) -> target.triggerHandler message, args: args, caller: @
+
+   event: (message, args) -> @msg_to @e, message, args
 
    exists: (selector) -> $(selector).length > 0
 
@@ -186,7 +181,7 @@ define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) 
             clearInterval handler
             action()
          if (new Date().getTime() - start > @waitTimeout)
-            @rt.server_log "wait() timeout", error
+            @debug "wait() timeout", error
             clearInterval handler
       ), @retryTimeout
 
@@ -194,9 +189,16 @@ define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) 
    
    wait_ajax_done: (action) -> @wait_existance "#pi-status[ajax=0][run=0]", action
 
-   tmpl: (name) -> mSource.get name
+   tmpl: (name, r) -> 
+      tmpl = mSource.get name
+      if tmpl
+         return if r then tmpl r else tmpl
+      else
+         @err "No template with name #{name}"
 
-   append: (tmpl, args) -> @rt.append tmpl, args
+   process: (e = @e) -> @processor.pi e
+
+   append: (tmpl, args) -> @process $("<div>").append @tmpl(tmpl, args) 
 
    parse_uri: ->
       @uri = URI window.location.hash.replace(/^\#\!/, "#").replace(/^(.*)\?(.*)$/,"?$2$1")
@@ -214,7 +216,6 @@ define ["pi/Promise", "pi/lib/URI/URI", "pi/m/Source"], (Promise, URI, mSource) 
          e = $ _e
          @rpc_el e, "die"
       scope.empty()
-
 
    chain: (targets, args = @data) ->
       msgre = /^\s*(.*?)\@(\S+)\s*(.*)$/g

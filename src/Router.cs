@@ -20,5 +20,3 @@ define ["pi/Pi", "pi/lib/URI/URI"], (P, URI) -> class Router extends P
    set_uri_without_event: ->
       @skipHashChangeOnce = true
       window.location.hash = @uri.hash() + @uri.search()
-
-

@@ -22,7 +22,7 @@ define ["pi/El"], (P) -> class aContent extends P
    set: (@text) ->
       @clear()
       @ee = $("<div>").html(@text).appendTo(@e)
-      @rt.pi @ee
+      @process @ee
    
    load: (uri = @parse_uri()) ->
       @active uri

@@ -19,8 +19,8 @@ define ["pi/Pi"], (aPi) -> class aEl extends aPi
       if @a.get == "" || @a.get
          $.get uri.fragment() + ".html", uri.query(), (text) => @set text
       else
-         @post uri.fragment(), {}, (text) => @set text
+         $.post uri.fragment(), (text) => @set text
 
    set: (@text) ->
       @e.html @text
-      @rt.pi @e
+      @process()
