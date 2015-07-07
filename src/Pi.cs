@@ -1,4 +1,4 @@
-define ["pi/lib/URI/URI", "pi/m/Source"], (URI, mSource) -> class aPi
+define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) -> class aPi
    
    # props (don't use {} as initializer, reference will be the same for all objects)
 
@@ -44,11 +44,7 @@ define ["pi/lib/URI/URI", "pi/m/Source"], (URI, mSource) -> class aPi
       @data = $.extend({}, @e.data())
       @uid = @a.uid if @a.uid
 
-      # debug
-      if window.console && Function.prototype.bind && (typeof console.log == "object" || typeof console.log == "function")
-         @sys_debug = Function.prototype.bind.call(console.log, console)
-      else
-         @sys_debug = ->
+      @logger = new Logger
 
       # event handler to call object methods via events
       @handler "rpc", (e, args) =>
@@ -62,13 +58,10 @@ define ["pi/lib/URI/URI", "pi/m/Source"], (URI, mSource) -> class aPi
       @init()
 
    debug: ->
+      @logger.debug arguments...
       $("#log").append arguments, "\n"
-      @sys_debug arguments...
 
-   err: ->
-      @sys_debug arguments...
-      err = new Error(arguments)
-      @sys_debug err.stack
+   err: -> @logger.err arguments...
  
    init: ->
 
@@ -132,19 +125,28 @@ define ["pi/lib/URI/URI", "pi/m/Source"], (URI, mSource) -> class aPi
       msgre = /\s*(.*?)\@(\S+)\s*/g
       while m = msgre.exec targets
          [selector, message] = [m[1] || "[pi]", m[2]]
-         return if ! message
-         return @pub_to_parent message, args if selector == "parent"
-         return @pub_to_closest cl, message, args if (cl = /^closest\((.*?)\)\s*(.*)$/.exec selector)
-         @pub_to_selector selector, message, args
+         next if ! message
+         if selector == "parent"
+            @pub_to_parent message, args
+         else if (cl = /^closest\((.*?)\)\s*(.*)$/.exec selector)
+            @pub_to_closest cl, message, args
+         else
+            @pub_to_selector selector, message, args
 
    pub_to_parent: (message, args) ->
       el = @e.parent().closest("[pi]")
-      el.attr("processed")? @msg_to el, message, args : @wait_to el, message, args
+      if el.attr("processed")
+         @msg_to el, message, args
+      else
+         @wait_to el, message, args
 
    pub_to_closest: (cl, message, args) ->
       el = @e.closest cl[1]
       el = el.find cl[2] if cl[2]
-      el.attr("processed")? @msg_to el, message, args : @wait_to el, message, args
+      if el.attr("processed")
+         @msg_to el, message, args
+      else
+         @wait_to el, message, args
 
    pub_to_selector: (selector, message, args) ->
       if ! $(selector).length || ! $(selector).attr "processed"
