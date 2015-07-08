@@ -1,5 +1,5 @@
 define({
-	pi: false,
-	processor: true,
-	"a/Source": false
+	"aSource": false,
+	"Bullet": true,
+	"processor": false
 });

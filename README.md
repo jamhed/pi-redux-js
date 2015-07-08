@@ -1,19 +1,27 @@
 # PI library
 
-Processing Instructions. Make html elements live.
+This library is designed to associate with an arbitrary html element
+an javascript object and to provide a way to communicate between them.
 
-* package management with bower
-* modularization with AMD and require.js
-* coffee-script classes
-* messages to server and to other pi-elements
+# Application design
 
-[General documentation](GENDOC.md), [Introduction](INTRO.md)
+Message passing between client and server (websockets).
 
 # Design
 
-Allows to bind any html-element to an instance of a Pi-derived class. The content
-of html element could be used as a template or whatever. Pi-elements can
-send messages to each other (and also to the server), and define message handlers.
+To associate an HTML element with an object you need to add custom attribute
+"pi" to it, example: pi="pi/Button". This means that Button.js package will be
+loaded, instantiated and associated with this very html element.
+
+Basic functionality is provided by processor.cs and Pi.cs modules. Processor.cs
+on load scan page for pi-elements, Pi.cs is a base class to inherit from.
+
+Library provides:
+
+* modularization (AMD-modules, managed by require.js)
+* parametrization and configuration
+* messaging (pub/sub, rpc)
+* templating (doT)
 
 # How to install
 

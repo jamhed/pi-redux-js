@@ -34,6 +34,12 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
    localSet: (k,v) -> @_localset(@uid + "/" + k, v);
    localGet: (k)   -> @_localget(@uid + "/" + k)
 
+   # [pi='Login/Status'][processed=2]
+   _parse_uid: (uid) ->
+      re = /\=\'(.+?)\'.*?=(\d+)/
+      m = re.exec uid
+      return "#{m[1]}[#{m[2]}]"
+   
    self: -> @
 
    constructor: (@processor, @e, @uid) ->
@@ -58,7 +64,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
       @init()
 
    debug: ->
-      @logger.debug arguments...
+      @logger.debug @.constructor.name, arguments...
       $("#log").append arguments, "\n"
 
    err: -> @logger.err arguments...
@@ -99,17 +105,17 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
          [target, ev_short] = [m[1], m[2]]
          @rpc_to target, "unhandler_table", [@uid, ev_full, ev_short]
 
-   unhandler_table: (sender_uid, ev_full, ev_short) ->
-      @debug "pi", "unhandler_table", sender_uid, ev_full, ev_short
+   unhandler_table: (sender_uid, ev_short) ->
+      @debug "unhandler_table", sender_uid, ev_full, ev_short
       if @hn_table[ev_short]
          delete @hn_table[ev_short][sender_uid]
 
    callback: (ev_full, _e, args) ->
-      @debug "pi", "callback", ev_full, _e, args
+      @debug "execute callback on", ev_full
       @cb_table[ev_full](_e, args.args)
 
    handler_table: (sender_uid, ev_full, ev_short) ->
-      @debug "pi", "handler_table", ev_full, ev_short
+      @debug "register callback for", ev_short, "to", @_parse_uid(sender_uid)
       if @hn_table[ev_short] == undefined
          @hn_table[ev_short] = {}
          @hn_table[ev_short][sender_uid] = ev_full
@@ -209,7 +215,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
 
    die: ->
       for ev_full,v of @cb_table
-         @debug "pi", "DEAD", @uid, ev_full
+         @debug "DEAD", @uid, ev_full
          @unsub ev_full
 
    clear: (scope = @e) ->

@@ -3,7 +3,7 @@ define ["pi/El", "pi/m/Source"], (aEl, mSource) -> class aSource extends aEl
 	attr: -> super.concat ["name"]
 
 	set: (text) ->
-		@debug "a/Source", @a.name
+		@debug @a.name
 		new mSource @a.name, text
 
 	up: (args) ->
