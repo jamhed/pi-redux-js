@@ -106,7 +106,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
          @rpc_to target, "unhandler_table", [@uid, ev_full, ev_short]
 
    unhandler_table: (sender_uid, ev_short) ->
-      @debug "unhandler_table", sender_uid, ev_full, ev_short
+      @debug "unregister callback for", ev_short, "to", @_parse_uid(sender_uid)
       if @hn_table[ev_short]
          delete @hn_table[ev_short][sender_uid]
 
