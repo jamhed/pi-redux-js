@@ -105,7 +105,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
          [target, ev_short] = [m[1], m[2]]
          @rpc_to target, "unhandler_table", [@uid, ev_full, ev_short]
 
-   unhandler_table: (sender_uid, ev_short) ->
+   unhandler_table: (sender_uid, ev_full, ev_short) ->
       @debug "unregister callback for", ev_short, "to", @_parse_uid(sender_uid)
       if @hn_table[ev_short]
          delete @hn_table[ev_short][sender_uid]
@@ -157,8 +157,9 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
    pub_to_selector: (selector, message, args) ->
       if ! $(selector).length || ! $(selector).attr "processed"
          do (selector, message, args) =>
+            @debug "wait", selector, message, args
             @wait (() => @exists(selector)), (() => @send_message selector, message, args),
-               "pub_to_selector() #{message}"
+               "pub_to_selector() #{selector} #{message}"
       else
          @send_message selector, message, args
 
@@ -215,7 +216,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
 
    die: ->
       for ev_full,v of @cb_table
-         @debug "DEAD", @uid, ev_full
+         @debug "instance gone", @_parse_uid(@uid), ev_full
          @unsub ev_full
 
    clear: (scope = @e) ->

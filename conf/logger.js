@@ -1,5 +1,5 @@
 define({
 	"aSource": false,
 	"Bullet": true,
-	"processor": false
+	"processor": true
 });
