@@ -214,6 +214,9 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
       @uri.hash("content") if @uri.hash() == "" or @uri.hash() == "index"
       return @uri
 
+   redirect: (uri) ->
+      window.location.hash = uri
+
    die: ->
       for ev_full,v of @cb_table
          @debug "instance gone", @_parse_uid(@uid), ev_full
