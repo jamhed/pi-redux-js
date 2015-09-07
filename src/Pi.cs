@@ -50,6 +50,8 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
       @data = $.extend({}, @e.data())
       @uid = @a.uid if @a.uid
 
+      @e.bind "pi", => @
+
       @logger = new Logger
 
       # event handler to call object methods via events
