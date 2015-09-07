@@ -50,7 +50,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
       @data = $.extend({}, @e.data())
       @uid = @a.uid if @a.uid
 
-      @e.bind "pi", => @
+      @e.data "pi", @
 
       @logger = new Logger
 
