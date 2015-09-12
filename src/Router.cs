@@ -12,11 +12,17 @@ define ["pi/Pi", "pi/lib/URI/URI"], (P, URI) -> class Router extends P
             return
          @event "hash/change", @parse_uri()
 
-   set_uri: (uri = @uri) ->
+   set_uri: (uri = @uri, skip = false) ->
+      if skip
+         @skipHashChangeOnce = true   
       window.location.hash = uri.hash() + uri.search()
 
-   set_hash: (s) -> window.location.hash = s
+   set_uri_text: (text, skip = false) ->
+      if skip
+         @skipHashChangeOnce = true   
+      window.location = text
 
-   set_uri_without_event: ->
-      @skipHashChangeOnce = true
-      window.location.hash = @uri.hash() + @uri.search()
+   set_hash: (s, skip) ->
+      if skip
+         @skipHashChangeOnce = true  
+      window.location.hash = s
