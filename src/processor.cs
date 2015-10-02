@@ -32,7 +32,7 @@ define ["pi/lib/jquery", "pi/Logger"], (jQuery, Logger) -> class Processor
 
       requirejs.onError = (err) =>
          @update_status @pi_run-1, @pi_ajax if @pi_run > 0
-         @err "type:", err.requireType, "module:", err.requireModules, "err:", err.message
+         @err "type:", err.requireType, "module:", err.requireModules, "err:", err
       
       @status_e = $("<div>").attr("id", "pi-status")
       $("body").append(@status_e)
