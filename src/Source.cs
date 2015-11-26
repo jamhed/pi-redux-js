@@ -1,5 +1,5 @@
 define ["pi/El", "pi/m/Source"], (aEl, mSource) -> class aSource extends aEl
-   
+
 	attr: -> super.concat ["name"]
 
 	set: (text) ->

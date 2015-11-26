@@ -1,26 +1,26 @@
 define ["pi/Pi"], (aPi) -> class aEl extends aPi
 
-   # props
+	# props
 
-   text: null
+	text: null
 
-   # methods
+	# methods
 
-   attr: -> super.concat ["uri", "get"]
+	attr: -> super.concat ["uri", "get"]
 
-   init: ->
-      @load()
+	init: ->
+		@load()
 
-   load: ->
-      if @a.uri == undefined
-         return @set @e.html()
-   
-      uri = @parse_uri()
-      if @a.get == "" || @a.get
-         $.get uri.fragment() + ".html", uri.query(), (text) => @set text
-      else
-         $.post uri.fragment(), (text) => @set text
+	load: ->
+		if @a.uri == undefined
+			return @set @e.html()
 
-   set: (@text) ->
-      @e.html @text
-      @process()
+		uri = @parse_uri()
+		if @a.get == "" || @a.get
+			$.get uri.fragment() + ".html", uri.query(), (text) => @set text
+		else
+			$.post uri.fragment(), (text) => @set text
+
+	set: (@text) ->
+		@e.html @text
+		@process()

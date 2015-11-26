@@ -1,29 +1,29 @@
 define ["pi/El"], (P) -> class aContent extends P
-   
-   attr: -> super.concat ["router"]
+	
+	attr: -> super.concat ["router"]
 
-   # props
+	# props
 
-   cache: null
-   ee: null
+	cache: null
+	ee: null
 
-   # methods
+	# methods
 
-   init: ->
+	init: ->
 
-      @sub "#{@a.router}@hash/change", (ev, args) => return @load(args)
+		@sub "#{@a.router}@hash/change", (ev, args) => return @load(args)
 
-      @load()
-            
-   active: (uri)  ->
-      $(".navbar li").removeClass "active"
-      $(".navbar a[href=\"#{uri.hash()}\"]").parent().addClass "active"
+		@load()
+				
+	active: (uri)  ->
+		$(".navbar li").removeClass "active"
+		$(".navbar a[href=\"#{uri.hash()}\"]").parent().addClass "active"
  
-   set: (@text) ->
-      @clear()
-      @ee = $("<div>").html(@text).appendTo(@e)
-      @process @ee
-   
-   load: (uri = @parse_uri()) ->
-      @active uri
-      super
+	set: (@text) ->
+		@clear()
+		@ee = $("<div>").html(@text).appendTo(@e)
+		@process @ee
+	
+	load: (uri = @parse_uri()) ->
+		@active uri
+		super
