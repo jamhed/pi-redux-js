@@ -159,7 +159,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
 	pub_to_selector: (selector, message, args) ->
 		if ! $(selector).length || ! $(selector).attr "processed"
 			do (selector, message, args) =>
-				@debug "wait", selector, message, args
+				# @debug "wait", selector, message, args
 				@wait (() => @exists(selector)), (() => @send_message selector, message, args),
 					"pub_to_selector() #{selector} #{message}"
 		else
@@ -223,7 +223,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
 
 	die: ->
 		for ev_full,v of @cb_table
-			@debug "instance gone", @_parse_uid(@uid), ev_full
+			# @debug "instance gone", @_parse_uid(@uid), ev_full
 			@unsub ev_full
 
 	clear: (scope = @e) ->
