@@ -41,8 +41,9 @@ define ["pi/lib/jquery", "pi/Logger"], (jQuery, Logger) -> class Processor
 
 	pi_bind: (name, e) ->
 		# @debug "pi_bind", name, e
-		# if e.attr "processed"
-		#   return @debug "pi already bound:", name, e
+		if e.attr "processed"
+			# @debug "pi already bound:", name, e
+			return 
 		@count[name] = if @count[name] then @count[name] + 1 else 1
 		e.attr "processed", @count[name]
 		new @class[name] @, e, "[pi='#{name}'][processed=#{@count[name]}]" # name + "/" + @count[name]
