@@ -1,6 +1,4 @@
 define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) -> class aPi
-	
-	# props (don't use {} as initializer, reference will be the same for all objects)
 
 	a:          null
 	data:       null
@@ -11,7 +9,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
 
 	cb_table:   null
 	hn_table:   null
-	
+
 	waitTimeout: 5000
 	retryTimeout: 100
 
