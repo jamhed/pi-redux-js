@@ -1,10 +1,6 @@
 define ["pi/Pi"], (aPi) -> class aEl extends aPi
 
-	# props
-
 	text: null
-
-	# methods
 
 	attr: -> super.concat ["uri", "get"]
 

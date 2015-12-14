@@ -4,7 +4,7 @@ define ["pi/Pi"], (aPi) -> class Button extends aPi
 
 	init: ->
 		@rpc @a.target, @e.data(), (->) if @a.click
-		
-		@e.click (ev) =>	
+
+		@e.click (ev) =>
 			ev.preventDefault()
 			@rpc @a.target, [@e.data()], -> 

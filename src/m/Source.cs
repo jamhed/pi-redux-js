@@ -1,9 +1,9 @@
 define ["pi/lib/doT"], (doT) -> class mSource
 
-   @registry: {}
+	@registry: {}
 
-   @get: (name) =>
-      return if @registry[name] then @registry[name] else null
+	@get: (name) =>
+		return if @registry[name] then @registry[name] else null
 
-   constructor: (name, text) ->
-      mSource.registry[name] = doT.template text
+	constructor: (name, text) ->
+		mSource.registry[name] = doT.template text
