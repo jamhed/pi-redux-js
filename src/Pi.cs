@@ -221,6 +221,9 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
 	redirect: (uri) ->
 		window.location.hash = uri
 
+	reload: (uri) ->
+		window.location = uri
+
 	die: ->
 		for ev_full,v of @cb_table
 			# @debug "instance gone", @_parse_uid(@uid), ev_full
