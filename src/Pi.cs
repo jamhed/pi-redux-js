@@ -1,4 +1,4 @@
-define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) -> class aPi
+define ["lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) -> class aPi
 
 	a:          null
 	data:       null
@@ -22,7 +22,7 @@ define ["pi/lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) ->
 			localStorage[k]
 		catch e
 			@error "localstorage fail."
-		
+
 	_localset: (k,v) -> 
 		try
 			localStorage[k] = v

@@ -1,4 +1,4 @@
-define ["pi/lib/jquery", "pi/Logger"], (jQuery, Logger) -> class Processor
+define ["lib/jquery", "pi/Logger"], (jQuery, Logger) -> class Processor
 
 	class: null
 	count: null

@@ -1,4 +1,4 @@
-define ["pi/lib/doT"], (doT) -> class mSource
+define ["lib/doT"], (doT) -> class mSource
 
 	@registry: {}
 

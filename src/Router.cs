@@ -1,4 +1,4 @@
-define ["pi/Pi", "pi/lib/URI/URI"], (P, URI) -> class Router extends P
+define ["pi/Pi", "lib/URI/URI"], (P, URI) -> class Router extends P
 
 	skipHashChangeOnce: false
 	uri: null
