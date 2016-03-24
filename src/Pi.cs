@@ -21,13 +21,13 @@ define ["lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) -> cl
 		try
 			localStorage[k]
 		catch e
-			@error "localstorage fail."
+			@err "localstorage fail."
 
 	_localset: (k,v) -> 
 		try
 			localStorage[k] = v
 		catch e
-			@error "localstorage fail set."
+			@err "localstorage fail set."
 
 	localSet: (k,v) -> @_localset(@uid + "/" + k, v);
 	localGet: (k)   -> @_localget(@uid + "/" + k)
@@ -190,7 +190,7 @@ define ["lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) -> cl
 				clearInterval handler
 				action()
 			if (new Date().getTime() - start > @waitTimeout)
-				@error "wait() timeout", error
+				@err "wait() timeout", error
 				clearInterval handler
 		), @retryTimeout
 
