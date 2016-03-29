@@ -57,4 +57,4 @@ define ["pi/Pi"], (aPi) -> class aForm extends aPi
 	onClick: (ev) ->
 		ev.preventDefault()
 		data = @serialize()
-		@rpc @a.target, [data.form], ->
+		@rpc @a.target, [data.form, @], ->

@@ -2,12 +2,15 @@ define ["pi/Pi"], (aPi) -> class aEl extends aPi
 
 	text: null
 
-	attr: -> super.concat ["uri", "get"]
+	attr: -> super.concat ["uri", "get", "template"]
 
 	init: ->
 		@load()
 
 	load: ->
+		if @a.template
+			return @set @tmpl @a.template, {}
+
 		if @a.uri == undefined
 			return @set @e.html()
 
