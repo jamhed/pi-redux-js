@@ -1,4 +1,4 @@
-define ["conf/logger.js"], (Conf) -> class Logger
+define ["lib/pi/conf/logger.js"], (Conf) -> class Logger
 
 	sys_debug: ->
 	sys_error: ->
