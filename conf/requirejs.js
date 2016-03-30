@@ -3,6 +3,7 @@ define({
    baseUrl: '/js',
    paths: {
       "pi":                "/lib/pi/js",
+      "lib":               "/lib",
       "lib/jquery":        "/lib/jquery/dist/jquery.min",
       "lib/jquery-ui":     "/lib/jquery-ui/jquery-ui.min",
       "lib/doT":           "/lib/doT/doT.min",
