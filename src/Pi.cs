@@ -169,7 +169,7 @@ define ["lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) -> cl
 	send_message_to: (el, message, args) ->
 		e = $ el
 		if ! (e.data("events") || $._data(el, "events"))?[message]
-			@err "No handler for message: #{message}, target: #{selector}" + " dst: pi=" + e.attr("pi") + " src: pi=" + o.uid
+			@err "No handler for message: #{message}, target: #{el}" + " dst: pi=" + e.attr("pi") + " src: pi=" + o.uid
 		else
 			@msg_to e, message, args
 	
