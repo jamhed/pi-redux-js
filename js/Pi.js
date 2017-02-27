@@ -293,7 +293,7 @@ define(["lib/URI/URI", "pi/m/Source", "pi/Logger"], function(URI, mSource, Logge
       var e, ref;
       e = $(el);
       if (!((ref = e.data("events") || $._data(el, "events")) != null ? ref[message] : void 0)) {
-        return this.err(("No handler for message: " + message + ", target: " + selector) + " dst: pi=" + e.attr("pi") + " src: pi=" + o.uid);
+        return this.err(("No handler for message: " + message + ", target: " + el) + " dst: pi=" + e.attr("pi") + " src: pi=" + o.uid);
       } else {
         return this.msg_to(e, message, args);
       }
@@ -387,6 +387,15 @@ define(["lib/URI/URI", "pi/m/Source", "pi/Logger"], function(URI, mSource, Logge
         this.uri.hash("content");
       }
       return this.uri;
+    };
+
+    aPi.prototype.uri_value = function(key) {
+      var Uri;
+      if (key == null) {
+        key = "id";
+      }
+      Uri = this.parse_uri();
+      return Uri.search(true)[key];
     };
 
     aPi.prototype.get_uri = function() {
