@@ -214,6 +214,10 @@ define ["lib/URI/URI", "pi/m/Source", "pi/Logger"], (URI, mSource, Logger) -> cl
 		@uri.hash("content") if @uri.hash() == "" or @uri.hash() == "index"
 		return @uri
 
+	uri_value: (key = "id")->
+		Uri = @parse_uri()
+		return Uri.search(true)[key]
+
 	get_uri: -> URI window.location
 
 	redirect: (uri) ->
