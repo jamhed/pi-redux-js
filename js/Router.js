@@ -28,6 +28,11 @@ define(["pi/Pi", "lib/URI/URI"], function(P, URI) {
       })(this);
     };
 
+    Router.prototype.reset = function() {
+      this.skipHashChangeOnce = true;
+      return window.location.search = "";
+    };
+
     Router.prototype.set_uri = function(uri, skip) {
       if (uri == null) {
         uri = this.uri;
