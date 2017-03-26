@@ -6,7 +6,6 @@ define({
     "pi": "/lib/pi/js",
     "lib": "/lib",
     "lib/jquery": "/lib/jquery/dist/jquery.min",
-    "lib/jquery-ui": "/lib/jquery-ui/jquery-ui.min",
     "lib/doT": "/lib/doT/doT.min",
     "lib/URI": "/lib/uri.js/src",
     "lib/upload": "/lib/jquery-file-upload/js/jquery.fileupload",
